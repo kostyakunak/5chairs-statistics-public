@@ -1427,4 +1427,89 @@ body {
   .message-media-group {
     grid-template-columns: 1fr;
   }
+/* Message Logs Styles */
+.message-log-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.message-list-item {
+  transition: all 0.2s ease;
+}
+
+.message-list-item:hover {
+  background-color: rgba(255, 107, 53, 0.02);
+}
+
+.message-list-item.selected {
+  background-color: rgba(255, 107, 53, 0.05);
+  border-left: 4px solid #FF6B35;
+}
+
+.message-content {
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.message-metadata {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #666;
+}
+
+.message-status-badge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.message-status-sent {
+  background-color: #D4EDDA;
+  color: #155724;
+}
+
+.message-status-failed {
+  background-color: #F8D7DA;
+  color: #721C24;
+}
+
+.message-status-queued {
+  background-color: #FFF3CD;
+  color: #856404;
+}
+
+.message-status-canceled {
+  background-color: #E2E3E5;
+  color: #383D41;
+}
+
+.message-media-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background-color: #F8F9FA;
+  border-radius: 16px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .message-metadata {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .message-content {
+    font-size: 14px;
+  }
+}
 }

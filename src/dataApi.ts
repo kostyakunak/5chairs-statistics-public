@@ -12,18 +12,23 @@ import type { Filters, StatsPayload, FunnelStage, TimeseriesPoint, PaymentsBreak
 // return data;
 
 export async function fetchStats(filters: Filters): Promise<StatsPayload> {
-  // Пока используем моковые данные для локальной разработки
-  // TODO: раскомментировать реальный вызов API когда бэкенд будет готов
-  // const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/stats?period=${filters.period}&source=${filters.source||''}`, {
-  //   headers: { 'X-Admin-Key': import.meta.env.VITE_ADMIN_KEY }
-  // });
-  // if (!res.ok) {
-  //   throw new Error('Failed to fetch stats');
-  // }
-  // const data: StatsPayload = await res.json();
-  // return data;
+  try {
+    const params = new URLSearchParams();
+    params.set('period', filters.period);
+    if (filters.source) params.set('source', filters.source);
 
-  return generateMockData(filters);
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/stats?` + params.toString(), {
+      headers: { 'X-Admin-Key': import.meta.env.VITE_ADMIN_KEY }
+    });
+    if (!res.ok) {
+      throw new Error(`API error ${res.status}`);
+    }
+    const data: StatsPayload = await res.json();
+    return data;
+  } catch (error) {
+    console.warn('Failed to fetch real stats, falling back to mock data:', error);
+    return generateMockData(filters);
+  }
 }
 
 function generateMockData(filters: Filters): StatsPayload {
