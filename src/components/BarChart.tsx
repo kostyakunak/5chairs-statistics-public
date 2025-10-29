@@ -60,8 +60,7 @@ export default function BarChart({ title, labels, data, hint }: BarChartProps) {
             callbacks: {
               label: function(context: any) {
                 const value = context.parsed.y;
-                const percent = ((value / total) * 100).toFixed(1);
-                return `${value.toLocaleString('ru-RU')} (${percent}%)`;
+                return `${value.toLocaleString('ru-RU')} пользователей`;
               }
             },
           },
