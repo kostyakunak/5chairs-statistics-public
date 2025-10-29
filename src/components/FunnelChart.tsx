@@ -60,7 +60,13 @@ export default function FunnelChart({ title, stages }: FunnelChartProps) {
               label: function(context: any) {
                 const index = context.dataIndex;
                 const stage = stages[index];
-                return `${stage.users} пользователей`;
+                const pctFromStart = (stage.pct_from_start * 100).toFixed(1);
+                const pctFromPrev = (stage.pct_from_prev * 100).toFixed(1);
+                return [
+                  `Пользователей: ${stage.users.toLocaleString('ru-RU')}`,
+                  `От старта: ${pctFromStart}%`,
+                  `От предыдущего: ${pctFromPrev}%`,
+                ];
               }
             },
           },
@@ -75,6 +81,10 @@ export default function FunnelChart({ title, stages }: FunnelChartProps) {
               font: {
                 size: 12,
               },
+              stepSize: 1,
+              callback: function(value: any) {
+                return Number.isInteger(value) ? value : '';
+              }
             },
           },
           y: {
