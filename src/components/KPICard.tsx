@@ -15,12 +15,12 @@ export default function KPICard({ title, value, tooltip, format = 'number' }: KP
 
     switch (format) {
       case 'percent':
-        return `${(val * 100).toLocaleString('ru-RU', { maximumFractionDigits: 1 })}%`;
+        return `${(val * 100).toLocaleString('en-US', { maximumFractionDigits: 1 })}%`;
       case 'currency':
-        return `${val.toLocaleString('ru-RU')} ₽`;
+        return `${val.toLocaleString('en-US')} ₽`;
       case 'number':
       default:
-        return val.toLocaleString('ru-RU');
+        return val.toLocaleString('en-US');
     }
   };
 

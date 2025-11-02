@@ -1,10 +1,10 @@
-// API модуль для загрузки статистики 5Chairs
-// ВАЖНО: ВОРОНКА СЧИТАЕТСЯ ДО ПЕРВОЙ ОПЛАТЫ. Повторные оплаты и LTV — в отдельном блоке.
+// API module for loading 5Chairs statistics
+// IMPORTANT: FUNNEL IS COUNTED UNTIL FIRST PAYMENT. Repeat payments and LTV are in a separate block.
 
 import type { Filters, StatsPayload, FunnelStage, TimeseriesPoint, PaymentsBreakdownPoint, SourceItem } from './types';
 
-// TODO: заменить на реальный вызов REST
-// Пример будущего запроса:
+// TODO: replace with real REST call
+// Example of future request:
 // const res = await fetch(`/admin/stats?period=${filters.period}&source=${filters.source||''}`, {
 //   headers: { 'X-Admin-Key': filters.admin_key || '' }
 // });
@@ -12,40 +12,46 @@ import type { Filters, StatsPayload, FunnelStage, TimeseriesPoint, PaymentsBreak
 // return data;
 
 export async function fetchStats(filters: Filters): Promise<StatsPayload> {
-  try {
-    const params = new URLSearchParams();
-    params.set('period', filters.period);
-    if (filters.source) params.set('source', filters.source);
+  // Always use mock data for demonstration
+  // Simulate a small delay for realism
+  await new Promise(resolve => setTimeout(resolve, 300));
+  return generateMockData(filters);
+  
+  // Commented out - use for real API:
+  // try {
+  //   const params = new URLSearchParams();
+  //   params.set('period', filters.period);
+  //   if (filters.source) params.set('source', filters.source);
 
-    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/stats?` + params.toString(), {
-      headers: { 'X-Admin-Key': import.meta.env.VITE_ADMIN_KEY }
-    });
-    if (!res.ok) {
-      throw new Error(`API error ${res.status}`);
-    }
-    const data: StatsPayload = await res.json();
-    return data;
-  } catch (error) {
-    console.warn('Failed to fetch real stats, falling back to mock data:', error);
-    return generateMockData(filters);
-  }
+  //   const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/stats?` + params.toString(), {
+  //     headers: { 'X-Admin-Key': import.meta.env.VITE_ADMIN_KEY }
+  //   });
+  //   if (!res.ok) {
+  //     throw new Error(`API error ${res.status}`);
+  //   }
+  //   const data: StatsPayload = await res.json();
+  //   return data;
+  // } catch (error) {
+  //   console.warn('Failed to fetch real stats, falling back to mock data:', error);
+  //   return generateMockData(filters);
+  // }
 }
 
 function generateMockData(filters: Filters): StatsPayload {
   const periodDays = getPeriodDays(filters.period);
 
-  // ВОРОНКА: методология — считаем до первой покупки
-  // Каждый этап: пользователь дошел до него до момента первой оплаты
+  // FUNNEL: methodology - counted until first purchase
+  // Each stage: user reached it before the moment of first payment
   const funnelStages: FunnelStage[] = [
-    { stage: 'Старт бота', users: 1000, pct_from_start: 1.0, pct_from_prev: 1.0 },
-    { stage: 'Анкета начата', users: 850, pct_from_start: 0.85, pct_from_prev: 0.85 },
-    { stage: 'Анкета завершена', users: 800, pct_from_start: 0.80, pct_from_prev: 0.94 },
-    { stage: 'Меню открыто', users: 750, pct_from_start: 0.75, pct_from_prev: 0.94 },
-    { stage: 'Поиск времени', users: 550, pct_from_start: 0.55, pct_from_prev: 0.73 },
-    { stage: 'Заявка отправлена', users: 400, pct_from_start: 0.40, pct_from_prev: 0.73 },
-    { stage: 'Предменю оплаты', users: 350, pct_from_start: 0.35, pct_from_prev: 0.88 },
-    { stage: 'Окно оплаты открыто', users: 280, pct_from_start: 0.28, pct_from_prev: 0.80 },
-    { stage: 'Оплата успешна', users: 120, pct_from_start: 0.12, pct_from_prev: 0.43 },
+    { stage: 'Bot Start', users: 1000, pct_from_start: 1.0, pct_from_prev: 1.0 },
+    { stage: 'Form Started', users: 850, pct_from_start: 0.85, pct_from_prev: 0.85 },
+    { stage: 'Form Completed', users: 800, pct_from_start: 0.80, pct_from_prev: 0.94 },
+    { stage: 'Menu Opened', users: 750, pct_from_start: 0.75, pct_from_prev: 0.94 },
+    { stage: 'Time Search', users: 550, pct_from_start: 0.55, pct_from_prev: 0.73 },
+    { stage: 'Request Sent', users: 400, pct_from_start: 0.40, pct_from_prev: 0.73 },
+    { stage: 'Payment Pre-menu', users: 350, pct_from_start: 0.35, pct_from_prev: 0.88 },
+    { stage: 'Payment Window Opened', users: 280, pct_from_start: 0.28, pct_from_prev: 0.80 },
+    { stage: 'Payment Success', users: 120, pct_from_start: 0.12, pct_from_prev: 0.43 },
   ];
 
   const sources: SourceItem[] = [
@@ -127,7 +133,7 @@ export function mapToCharts(stats: StatsPayload) {
       const labels = top5.map(s => capitalizeSource(s.source));
       const data = top5.map(s => s.users);
       if (otherSum > 0) {
-        labels.push('Другое');
+        labels.push('Other');
         data.push(otherSum);
       }
       return { labels, data };
@@ -160,12 +166,12 @@ function formatDate(dateStr: string, totalDays: number): string {
 
 function capitalizeSource(source: string): string {
   const names: Record<string, string> = {
-    afisha: 'Афиша',
+    afisha: 'Afisha',
     instagram: 'Instagram',
     facebook: 'Facebook',
-    organic: 'Органика',
-    partners: 'Партнёры',
-    other: 'Другое',
+    organic: 'Organic',
+    partners: 'Partners',
+    other: 'Other',
   };
   return names[source] || source;
 }

@@ -42,12 +42,12 @@ export default function MessageFilters({ filters, onFiltersChange }: MessageFilt
     <div className="flex justify-center">
       <div className="filters-container" style={{ maxWidth: '800px', width: '100%' }}>
         <div className="filters-header flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Фильтры сообщений</h3>
+          <h3 className="text-lg font-semibold text-gray-900">Message Filters</h3>
           <button
             className="text-sm text-orange-600 hover:text-orange-700 underline"
             onClick={() => setShowAdvanced(!showAdvanced)}
           >
-            {showAdvanced ? 'Скрыть' : 'Показать'} дополнительные фильтры
+            {showAdvanced ? 'Hide' : 'Show'} advanced filters
           </button>
         </div>
 
@@ -61,28 +61,28 @@ export default function MessageFilters({ filters, onFiltersChange }: MessageFilt
               type="text"
               value={filters.user_id || ''}
               onChange={handleUserIdChange}
-              placeholder="Введите User ID"
+              placeholder="Enter User ID"
               className="w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-md focus:border-orange-500 focus:outline-none transition-colors"
             />
           </div>
 
           <div className="flex-1 min-w-[200px]">
             <label htmlFor="source" className="block text-sm font-medium text-gray-700 mb-1">
-              Источник
+              Source
             </label>
             <input
               id="source"
               type="text"
               value={filters.source || ''}
               onChange={handleSourceChange}
-              placeholder="Введите источник"
+              placeholder="Enter source"
               className="w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-md focus:border-orange-500 focus:outline-none transition-colors"
             />
           </div>
 
           <div className="flex-1 min-w-[200px]">
             <label htmlFor="messageType" className="block text-sm font-medium text-gray-700 mb-1">
-              Тип сообщения
+              Message Type
             </label>
             <select
               id="messageType"
@@ -90,28 +90,28 @@ export default function MessageFilters({ filters, onFiltersChange }: MessageFilt
               onChange={handleMessageTypeChange}
               className="w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-md bg-white focus:border-orange-500 focus:outline-none transition-colors cursor-pointer"
             >
-              <option value="all">Все типы</option>
-              <option value="text">Текст</option>
-              <option value="photo">Фото</option>
-              <option value="video">Видео</option>
-              <option value="document">Документ</option>
-              <option value="audio">Аудио</option>
-              <option value="voice">Голосовое</option>
-              <option value="sticker">Стикер</option>
+              <option value="all">All Types</option>
+              <option value="text">Text</option>
+              <option value="photo">Photo</option>
+              <option value="video">Video</option>
+              <option value="document">Document</option>
+              <option value="audio">Audio</option>
+              <option value="voice">Voice</option>
+              <option value="sticker">Sticker</option>
             </select>
           </div>
 
           {showAdvanced && (
             <div className="flex-1 min-w-[200px]">
               <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1">
-                Поиск
+                Search
               </label>
               <input
                 id="search"
                 type="text"
                 value={filters.search || ''}
                 onChange={handleSearchChange}
-                placeholder="Поиск по тексту"
+                placeholder="Search by text"
                 className="w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-md focus:border-orange-500 focus:outline-none transition-colors"
               />
             </div>
@@ -122,7 +122,7 @@ export default function MessageFilters({ filters, onFiltersChange }: MessageFilt
               className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-2 border-gray-300 rounded-md hover:border-orange-500 hover:text-orange-700 transition-colors"
               onClick={handleReset}
             >
-              Сбросить
+              Reset
             </button>
           </div>
         </div>

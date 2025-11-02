@@ -36,7 +36,7 @@ export default function FunnelChart({ title, stages }: FunnelChartProps) {
       data: {
         labels,
         datasets: [{
-          label: 'Пользователи',
+          label: 'Users',
           data,
           backgroundColor: colors,
           borderColor: '#FF6B35',
@@ -63,9 +63,9 @@ export default function FunnelChart({ title, stages }: FunnelChartProps) {
                 const pctFromStart = (stage.pct_from_start * 100).toFixed(1);
                 const pctFromPrev = (stage.pct_from_prev * 100).toFixed(1);
                 return [
-                  `Пользователей: ${stage.users.toLocaleString('ru-RU')}`,
-                  `От старта: ${pctFromStart}%`,
-                  `От предыдущего: ${pctFromPrev}%`,
+                  `Users: ${stage.users.toLocaleString('en-US')}`,
+                  `From start: ${pctFromStart}%`,
+                  `From previous: ${pctFromPrev}%`,
                 ];
               }
             },
@@ -117,7 +117,7 @@ export default function FunnelChart({ title, stages }: FunnelChartProps) {
     <div className="chart-container funnel-chart">
       <h2 className="chart-title">{title}</h2>
       <p className="chart-subtitle">
-        ВОРОНКА СЧИТАЕТСЯ ДО ПЕРВОЙ ОПЛАТЫ. Повторные оплаты и LTV — в отдельном блоке.
+        FUNNEL IS COUNTED UNTIL FIRST PAYMENT. Repeat payments and LTV are in a separate block.
       </p>
       <div className="chart-canvas-wrapper funnel-wrapper">
         <canvas ref={canvasRef}></canvas>

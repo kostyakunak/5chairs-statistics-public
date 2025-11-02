@@ -8,21 +8,21 @@ interface FiltersProps {
 }
 
 const SOURCES = [
-  { value: '', label: 'Все источники' },
-  { value: 'afisha', label: 'Афиша' },
+  { value: '', label: 'All Sources' },
+  { value: 'afisha', label: 'Afisha' },
   { value: 'instagram', label: 'Instagram' },
   { value: 'facebook', label: 'Facebook' },
-  { value: 'organic', label: 'Органика' },
-  { value: 'partners', label: 'Партнёры' },
-  { value: 'other', label: 'Другое' },
+  { value: 'organic', label: 'Organic' },
+  { value: 'partners', label: 'Partners' },
+  { value: 'other', label: 'Other' },
 ];
 
 const PERIODS: { value: Period; label: string }[] = [
-  { value: 'today', label: 'Сегодня' },
-  { value: '3d', label: '3 дня' },
-  { value: '7d', label: 'Неделя' },
-  { value: '30d', label: 'Месяц' },
-  { value: 'all', label: 'Всё время' },
+  { value: 'today', label: 'Today' },
+  { value: '3d', label: '3 Days' },
+  { value: '7d', label: 'Week' },
+  { value: '30d', label: 'Month' },
+  { value: 'all', label: 'All Time' },
 ];
 
 export default function Filters({ filters, onFiltersChange, onRefresh }: FiltersProps) {
@@ -46,14 +46,14 @@ export default function Filters({ filters, onFiltersChange, onRefresh }: Filters
 
   const getFilterSummary = () => {
     const periodLabel = PERIODS.find(p => p.value === filters.period)?.label || '';
-    const sourceLabel = SOURCES.find(s => s.value === (filters.source || ''))?.label || 'Все источники';
+    const sourceLabel = SOURCES.find(s => s.value === (filters.source || ''))?.label || 'All Sources';
     return `${periodLabel} · ${sourceLabel}`;
   };
 
   return (
     <div className="filters-container">
       <div className="filters-header">
-        <h1 className="dashboard-title">Статистика 5Chairs</h1>
+        <h1 className="dashboard-title">5Chairs Statistics</h1>
       </div>
 
       <div className="filters-controls">
@@ -83,11 +83,11 @@ export default function Filters({ filters, onFiltersChange, onRefresh }: Filters
           </select>
 
           <button className="refresh-btn" onClick={onRefresh}>
-            Обновить
+            Refresh
           </button>
 
           <button className="reset-btn" onClick={handleReset}>
-            Сбросить
+            Reset
           </button>
         </div>
 
@@ -96,7 +96,7 @@ export default function Filters({ filters, onFiltersChange, onRefresh }: Filters
             <input
               type="password"
               className="admin-key-input"
-              placeholder="Admin Key (опционально)"
+              placeholder="Admin Key (optional)"
               value={filters.admin_key || ''}
               onChange={handleAdminKeyChange}
             />
@@ -107,7 +107,7 @@ export default function Filters({ filters, onFiltersChange, onRefresh }: Filters
           className="toggle-admin-btn"
           onClick={() => setShowAdminKey(!showAdminKey)}
         >
-          {showAdminKey ? 'Скрыть' : 'Показать'} admin key
+          {showAdminKey ? 'Hide' : 'Show'} admin key
         </button>
       </div>
 

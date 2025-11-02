@@ -34,7 +34,7 @@ export default function RepeatClientsBlock({ kpis, paymentsData }: RepeatClients
         labels: paymentsData.labels,
         datasets: [
           {
-            label: 'Новые оплаты',
+            label: 'New Payments',
             data: paymentsData.newData,
             backgroundColor: 'rgba(255, 107, 53, 0.8)',
             borderColor: '#FF6B35',
@@ -42,7 +42,7 @@ export default function RepeatClientsBlock({ kpis, paymentsData }: RepeatClients
             borderRadius: 6,
           },
           {
-            label: 'Повторные оплаты',
+            label: 'Repeat Payments',
             data: paymentsData.repeatData,
             backgroundColor: 'rgba(52, 168, 83, 0.8)',
             borderColor: '#34A853',
@@ -114,40 +114,40 @@ export default function RepeatClientsBlock({ kpis, paymentsData }: RepeatClients
 
   return (
     <div className="repeat-clients-block">
-      <h2 className="section-title">Повторные клиенты</h2>
+      <h2 className="section-title">Repeat Clients</h2>
 
       <div className="repeat-kpis">
         <div className="repeat-kpi-card">
-          <div className="repeat-kpi-label">Доля повторных клиентов</div>
+          <div className="repeat-kpi-label">Repeat Client Share</div>
           <div className="repeat-kpi-value">
-            {(kpis.repeat_share * 100).toLocaleString('ru-RU', { maximumFractionDigits: 1 })}%
+            {(kpis.repeat_share * 100).toLocaleString('en-US', { maximumFractionDigits: 1 })}%
           </div>
-          <div className="repeat-kpi-hint">Клиенты с ≥2 оплатами</div>
+          <div className="repeat-kpi-hint">Clients with ≥2 payments</div>
         </div>
 
         {kpis.aov && (
           <div className="repeat-kpi-card">
-            <div className="repeat-kpi-label">Средний чек (AOV)</div>
+            <div className="repeat-kpi-label">Average Order Value (AOV)</div>
             <div className="repeat-kpi-value">
-              {kpis.aov.toLocaleString('ru-RU')} {import.meta.env.VITE_CURRENCY_SYMBOL || '₽'}
+              {kpis.aov.toLocaleString('en-US')} {import.meta.env.VITE_CURRENCY_SYMBOL || '₽'}
             </div>
-            <div className="repeat-kpi-hint">Среднее значение оплаты</div>
+            <div className="repeat-kpi-hint">Average payment value</div>
           </div>
         )}
 
         {kpis.ltv_avg && (
           <div className="repeat-kpi-card">
-            <div className="repeat-kpi-label">Средний LTV</div>
+            <div className="repeat-kpi-label">Average LTV</div>
             <div className="repeat-kpi-value">
-              {kpis.ltv_avg.toLocaleString('ru-RU')} {import.meta.env.VITE_CURRENCY_SYMBOL || '₽'}
+              {kpis.ltv_avg.toLocaleString('en-US')} {import.meta.env.VITE_CURRENCY_SYMBOL || '₽'}
             </div>
-            <div className="repeat-kpi-hint">Сумма оплат на пользователя</div>
+            <div className="repeat-kpi-hint">Total payments per user</div>
           </div>
         )}
       </div>
 
       <div className="chart-container">
-        <h3 className="chart-title">Новые vs Повторные оплаты по дням</h3>
+        <h3 className="chart-title">New vs Repeat Payments by Day</h3>
         <div className="chart-canvas-wrapper">
           <canvas ref={canvasRef}></canvas>
         </div>

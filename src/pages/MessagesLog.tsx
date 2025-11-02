@@ -37,7 +37,7 @@ export default function MessagesLog() {
 
       setNextCursor(response.nextCursor);
     } catch (err) {
-      setError('Ошибка загрузки сообщений. Попробуйте обновить страницу.');
+      setError('Error loading messages. Please refresh the page.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -95,7 +95,7 @@ export default function MessagesLog() {
       {loading && messages.length === 0 ? (
         <div className="loading-state">
           <div className="spinner"></div>
-          <p>Загрузка сообщений...</p>
+          <p>Loading messages...</p>
         </div>
       ) : (
         <MessageList

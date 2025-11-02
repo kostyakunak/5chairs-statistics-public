@@ -32,7 +32,7 @@ export default function BarChart({ title, labels, data, hint }: BarChartProps) {
       data: {
         labels,
         datasets: [{
-          label: 'Пользователи',
+          label: 'Users',
           data,
           backgroundColor: [
             'rgba(255, 107, 53, 0.9)',
@@ -60,7 +60,7 @@ export default function BarChart({ title, labels, data, hint }: BarChartProps) {
             callbacks: {
               label: function(context: any) {
                 const value = context.parsed.y;
-                return `${value.toLocaleString('ru-RU')} пользователей`;
+                return `${value.toLocaleString('en-US')} users`;
               }
             },
           },

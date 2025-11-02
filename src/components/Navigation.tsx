@@ -18,14 +18,14 @@ export default function Navigation({ activeTab, onTabChange }: NavigationProps) 
             onClick={() => onTabChange('dashboard')}
           >
             <BarChart3 size={20} />
-            <span>Статистика</span>
+            <span>Statistics</span>
           </button>
           <button
             className={`nav-tab ${activeTab === 'messages' ? 'active' : ''}`}
             onClick={() => onTabChange('messages')}
           >
             <MessageSquare size={20} />
-            <span>Отправленные сообщения</span>
+            <span>Sent Messages</span>
           </button>
         </div>
       </div>

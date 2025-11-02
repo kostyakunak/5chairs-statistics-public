@@ -28,7 +28,7 @@ export default function Dashboard() {
       const data = await fetchStats(filters);
       setStats(data);
     } catch (err) {
-      setError('Ошибка загрузки данных. Попробуйте обновить страницу.');
+      setError('Error loading data. Please refresh the page.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -52,7 +52,7 @@ export default function Dashboard() {
       <div className="dashboard">
         <div className="loading-state">
           <div className="spinner"></div>
-          <p>Загрузка данных...</p>
+          <p>Loading data...</p>
         </div>
       </div>
     );
@@ -79,48 +79,48 @@ export default function Dashboard() {
 
       <div className="kpi-grid">
         <KPICard
-          title="Новые пользователи"
+          title="New Users"
           value={stats.kpis.new_users}
           format="number"
-          tooltip="Количество новых пользователей за выбранный период"
+          tooltip="Number of new users for the selected period"
         />
         <KPICard
-          title="Всего пользователей"
+          title="Total Users"
           value={stats.kpis.total_users}
           format="number"
-          tooltip="Общее количество пользователей за всё время"
+          tooltip="Total number of users for all time"
         />
         <KPICard
-          title="Конверсия до первой оплаты"
+          title="First Purchase Conversion"
           value={stats.kpis.first_purchase_cr}
           format="percent"
-          tooltip="Процент пользователей, совершивших первую оплату от старта бота до payment_success"
+          tooltip="Percentage of users who made their first payment from bot start to payment_success"
         />
         <KPICard
-          title="Повторные клиенты"
+          title="Repeat Clients"
           value={stats.kpis.repeat_share}
           format="percent"
-          tooltip="Доля клиентов с двумя и более оплатами за всё время"
+          tooltip="Share of clients with two or more payments for all time"
         />
       </div>
 
       <div className="charts-grid">
         <LineChart
-          title="Новые пользователи по дням"
+          title="New Users by Day"
           labels={charts.newUsersChart.labels}
           data={charts.newUsersChart.data}
         />
 
         <BarChart
-          title="Источники трафика (Top-5)"
+          title="Traffic Sources (Top-5)"
           labels={charts.sourcesChart.labels}
           data={charts.sourcesChart.data}
-          hint="Источники трафика определяются по first-click модели (параметр ?start= в ссылке)"
+          hint="Traffic sources are determined by first-click model (parameter ?start= in the link)"
         />
       </div>
 
       <FunnelChart
-        title="Воронка: Путь до первой оплаты"
+        title="Funnel: Path to First Payment"
         stages={stats.funnel}
       />
 

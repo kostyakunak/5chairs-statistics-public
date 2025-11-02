@@ -1,17 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { fetchMessageDetails } from '../../logsApi';
 import type { MessageDetails as MessageDetailsType } from '../../logsTypes';
 
 interface MessageDetailsProps {
-  message: MessageDetailsType | null;
+  messageUuid: string;
+  onClose: () => void;
 }
 
-export default function MessageDetails({ message }: MessageDetailsProps) {
+export default function MessageDetails({ messageUuid, onClose }: MessageDetailsProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'request' | 'response' | 'versions' | 'events'>('overview');
+  const [message, setMessage] = useState<MessageDetailsType | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!message) {
+  useEffect(() => {
+    const loadMessage = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await fetchMessageDetails(messageUuid);
+        setMessage(data);
+      } catch (err) {
+        setError('Failed to load message details');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadMessage();
+  }, [messageUuid]);
+
+  if (loading) {
     return (
       <div className="message-details-empty">
-        <p>Выберите сообщение для просмотра деталей</p>
+        <p>Loading message details...</p>
+      </div>
+    );
+  }
+
+  if (error || !message) {
+    return (
+      <div className="message-details-empty">
+        <p>{error || 'Message not found'}</p>
+        <button onClick={onClose} className="mt-4 px-4 py-2 bg-gray-200 rounded">Close</button>
       </div>
     );
   }
@@ -20,7 +52,7 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
     if (renderedMessage.text) {
       return (
         <div className="message-content-text">
-          <h4>Текст сообщения:</h4>
+          <h4>Message Text:</h4>
           <pre className="text-content">{renderedMessage.text}</pre>
         </div>
       );
@@ -29,8 +61,8 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
     if (renderedMessage.photo) {
       return (
         <div className="message-content-media">
-          <h4>Медиа:</h4>
-          <p>📷 Фото: {renderedMessage.photo}</p>
+          <h4>Media:</h4>
+          <p>📷 Photo: {renderedMessage.photo}</p>
         </div>
       );
     }
@@ -38,15 +70,15 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
     if (renderedMessage.document) {
       return (
         <div className="message-content-media">
-          <h4>Медиа:</h4>
-          <p>📄 Документ: {renderedMessage.document}</p>
+          <h4>Media:</h4>
+          <p>📄 Document: {renderedMessage.document}</p>
         </div>
       );
     }
 
     return (
       <div className="message-content-unknown">
-        <p>Неизвестный тип контента</p>
+        <p>Unknown content type</p>
       </div>
     );
   };
@@ -54,8 +86,9 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
   return (
     <div className="message-details">
       <div className="details-header">
-        <h3>Детали сообщения</h3>
+        <h3>Message Details</h3>
         <div className="message-id">UUID: {message.message_uuid}</div>
+        <button onClick={onClose} className="close-btn">×</button>
       </div>
 
       <div className="details-tabs">
@@ -63,26 +96,26 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
           className={`tab-btn ${activeTab === 'overview' ? 'active' : ''}`}
           onClick={() => setActiveTab('overview')}
         >
-          Обзор
+          Overview
         </button>
         <button
           className={`tab-btn ${activeTab === 'request' ? 'active' : ''}`}
           onClick={() => setActiveTab('request')}
         >
-          Запрос
+          Request
         </button>
         <button
           className={`tab-btn ${activeTab === 'response' ? 'active' : ''}`}
           onClick={() => setActiveTab('response')}
         >
-          Ответ
+          Response
         </button>
         {message.versions && message.versions.length > 0 && (
           <button
             className={`tab-btn ${activeTab === 'versions' ? 'active' : ''}`}
             onClick={() => setActiveTab('versions')}
           >
-            Версии ({message.versions.length})
+            Versions ({message.versions.length})
           </button>
         )}
         {message.events && message.events.length > 0 && (
@@ -90,7 +123,7 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
             className={`tab-btn ${activeTab === 'events' ? 'active' : ''}`}
             onClick={() => setActiveTab('events')}
           >
-            События ({message.events.length})
+            Events ({message.events.length})
           </button>
         )}
       </div>
@@ -104,7 +137,7 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
                 <span>{message.bot_id}</span>
               </div>
               <div className="info-item">
-                <label>Модуль:</label>
+                <label>Module:</label>
                 <span>{message.module}</span>
               </div>
               <div className="info-item">
@@ -116,21 +149,21 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
                 <span>{message.chat_id}</span>
               </div>
               <div className="info-item">
-                <label>Тип:</label>
+                <label>Type:</label>
                 <span>{message.type}</span>
               </div>
               <div className="info-item">
-                <label>Статус:</label>
+                <label>Status:</label>
                 <span className={`status-${message.status}`}>{message.status}</span>
               </div>
               <div className="info-item">
-                <label>Запланировано:</label>
-                <span>{new Date(message.planned_at).toLocaleString('ru-RU')}</span>
+                <label>Planned:</label>
+                <span>{new Date(message.planned_at).toLocaleString('en-US')}</span>
               </div>
               {message.sent_at && (
                 <div className="info-item">
-                  <label>Отправлено:</label>
-                  <span>{new Date(message.sent_at).toLocaleString('ru-RU')}</span>
+                  <label>Sent:</label>
+                  <span>{new Date(message.sent_at).toLocaleString('en-US')}</span>
                 </div>
               )}
               {message.telegram_message_id && (
@@ -147,22 +180,22 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
 
         {activeTab === 'request' && (
           <div className="request-tab">
-            <h4>Тело запроса:</h4>
+            <h4>Request Body:</h4>
             <pre className="json-content">
-              {message.request_body || 'Нет данных'}
+              {message.request_body || 'No data'}
             </pre>
           </div>
         )}
 
         {activeTab === 'response' && (
           <div className="response-tab">
-            <h4>Тело ответа:</h4>
+            <h4>Response Body:</h4>
             <pre className="json-content">
-              {message.response_body || 'Нет данных'}
+              {message.response_body || 'No data'}
             </pre>
             {message.http_status && (
               <div className="http-status">
-                <label>HTTP статус:</label>
+                <label>HTTP Status:</label>
                 <span>{message.http_status}</span>
               </div>
             )}
@@ -171,13 +204,13 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
 
         {activeTab === 'versions' && message.versions && (
           <div className="versions-tab">
-            <h4>История версий:</h4>
+            <h4>Version History:</h4>
             {message.versions.map((version, index) => (
               <div key={index} className="version-item">
                 <div className="version-header">
-                  <span className="version-number">Версия {version.version}</span>
+                  <span className="version-number">Version {version.version}</span>
                   <span className="version-date">
-                    {new Date(version.modified_at).toLocaleString('ru-RU')}
+                    {new Date(version.modified_at).toLocaleString('en-US')}
                   </span>
                 </div>
                 {renderMessageContent(version.rendered_message)}
@@ -188,13 +221,13 @@ export default function MessageDetails({ message }: MessageDetailsProps) {
 
         {activeTab === 'events' && message.events && (
           <div className="events-tab">
-            <h4>События:</h4>
+            <h4>Events:</h4>
             {message.events.map((event, index) => (
               <div key={index} className="event-item">
                 <div className="event-header">
                   <span className="event-type">{event.event_type}</span>
                   <span className="event-date">
-                    {new Date(event.occurred_at).toLocaleString('ru-RU')}
+                    {new Date(event.occurred_at).toLocaleString('en-US')}
                   </span>
                 </div>
                 {event.details && (

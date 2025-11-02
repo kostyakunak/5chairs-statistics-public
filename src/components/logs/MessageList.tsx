@@ -35,7 +35,7 @@ export default function MessageList({ messages, onMessageSelect, selectedMessage
     return (
       <div className="text-center py-12 text-gray-500">
         <div className="text-4xl mb-4">📭</div>
-        <p className="text-lg">Сообщения не найдены</p>
+        <p className="text-lg">No messages found</p>
       </div>
     );
   }
@@ -75,13 +75,13 @@ export default function MessageList({ messages, onMessageSelect, selectedMessage
                     {message.rendered_message.photo && (
                       <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600 bg-gray-100 px-2 sm:px-3 py-1 rounded-full">
                         <span>📷</span>
-                        <span>Фото</span>
+                        <span>Photo</span>
                       </div>
                     )}
                     {message.rendered_message.document && (
                       <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600 bg-gray-100 px-2 sm:px-3 py-1 rounded-full">
                         <span>📄</span>
-                        <span>Документ</span>
+                        <span>Document</span>
                       </div>
                     )}
                   </div>
@@ -95,7 +95,7 @@ export default function MessageList({ messages, onMessageSelect, selectedMessage
                       toggleMessageExpansion(message.message_uuid);
                     }}
                   >
-                    {isExpanded ? 'Свернуть' : 'Показать больше'}
+                    {isExpanded ? 'Collapse' : 'Show more'}
                   </button>
                 )}
               </div>
@@ -106,10 +106,10 @@ export default function MessageList({ messages, onMessageSelect, selectedMessage
                   <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(message.status)}`}>
                     {message.status}
                   </span>
-                  <span>Пользователь: {message.user_id}</span>
-                  {message.source && <span>Источник: {message.source}</span>}
+                  <span>User: {message.user_id}</span>
+                  {message.source && <span>Source: {message.source}</span>}
                 </div>
-                <div>{new Date(message.planned_at).toLocaleString('ru-RU')}</div>
+                <div>{new Date(message.planned_at).toLocaleString('en-US')}</div>
               </div>
             </div>
           </div>

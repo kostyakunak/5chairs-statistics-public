@@ -52,11 +52,11 @@ function generateMockMessage(index: number): MessageItem {
   };
 
   const texts = [
-    'Привет, *${name}*! Ваш слот подтвержден:\n27.10 14:00',
-    'Напоминание о записи через 24 часа',
-    'Спасибо за оплату! Ждем вас 🎉',
-    'Специальное предложение только для вас',
-    'Ваш заказ готов к получению',
+    'Hi, *${name}*! Your slot is confirmed:\n27.10 14:00',
+    'Reminder: appointment in 24 hours',
+    'Thank you for payment! We are waiting for you 🎉',
+    'Special offer just for you',
+    'Your order is ready for pickup',
   ];
 
   if (type === 'text') {
@@ -72,31 +72,31 @@ function generateMockMessage(index: number): MessageItem {
     if (Math.random() > 0.6) {
       rendered_message.reply_markup = {
         inline_keyboard: [[
-          { text: 'Открыть', url: 'https://5chairs.ru/booking' },
-          { text: 'Отменить', callback_data: 'cancel_booking' }
+          { text: 'Open', url: 'https://5chairs.ru/booking' },
+          { text: 'Cancel', callback_data: 'cancel_booking' }
         ]]
       };
     }
   } else if (type === 'photo') {
     rendered_message.photo = `https://picsum.photos/800/600?random=${index}`;
-    rendered_message.caption = 'Ваша бронь подтверждена';
+    rendered_message.caption = 'Your booking is confirmed';
     rendered_message.entities = [{ offset: 0, length: 4, type: 'bold' }];
   } else if (type === 'video') {
     rendered_message.video = `https://example.com/video_${index}.mp4`;
-    rendered_message.caption = 'Обучающее видео';
+    rendered_message.caption = 'Educational video';
   } else if (type === 'document') {
     rendered_message.document = `https://example.com/doc_${index}.pdf`;
-    rendered_message.caption = 'Ваша квитанция';
+    rendered_message.caption = 'Your receipt';
   } else if (type === 'invoice') {
-    rendered_message.title = 'Оплата услуги';
-    rendered_message.description = 'Бронирование на 27.10 14:00';
+    rendered_message.title = 'Service Payment';
+    rendered_message.description = 'Booking for 27.10 14:00';
     rendered_message.payload = `invoice_${index}`;
     rendered_message.currency = 'RUB';
-    rendered_message.prices = [{ label: 'Стрижка', amount: 150000 }];
+    rendered_message.prices = [{ label: 'Haircut', amount: 150000 }];
   } else if (type === 'media_group') {
     rendered_message.media = [
-      { type: 'photo', media: `https://picsum.photos/800/600?random=${index}a`, caption: 'Фото 1' },
-      { type: 'photo', media: `https://picsum.photos/800/600?random=${index}b`, caption: 'Фото 2' },
+      { type: 'photo', media: `https://picsum.photos/800/600?random=${index}a`, caption: 'Photo 1' },
+      { type: 'photo', media: `https://picsum.photos/800/600?random=${index}b`, caption: 'Photo 2' },
     ];
   }
 

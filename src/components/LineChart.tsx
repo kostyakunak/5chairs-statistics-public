@@ -29,7 +29,7 @@ export default function LineChart({ title, labels, data }: LineChartProps) {
       data: {
         labels,
         datasets: [{
-          label: 'Новые пользователи',
+          label: 'New Users',
           data,
           borderColor: '#FF6B35',
           backgroundColor: 'rgba(255, 107, 53, 0.1)',
