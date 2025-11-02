@@ -129,7 +129,7 @@ export default function RepeatClientsBlock({ kpis, paymentsData }: RepeatClients
           <div className="repeat-kpi-card">
             <div className="repeat-kpi-label">Average Order Value (AOV)</div>
             <div className="repeat-kpi-value">
-              {kpis.aov.toLocaleString('en-US')} {import.meta.env.VITE_CURRENCY_SYMBOL || '₽'}
+              ${kpis.aov.toLocaleString('en-US')}
             </div>
             <div className="repeat-kpi-hint">Average payment value</div>
           </div>
@@ -139,7 +139,7 @@ export default function RepeatClientsBlock({ kpis, paymentsData }: RepeatClients
           <div className="repeat-kpi-card">
             <div className="repeat-kpi-label">Average LTV</div>
             <div className="repeat-kpi-value">
-              {kpis.ltv_avg.toLocaleString('en-US')} {import.meta.env.VITE_CURRENCY_SYMBOL || '₽'}
+              ${kpis.ltv_avg.toLocaleString('en-US')}
             </div>
             <div className="repeat-kpi-hint">Total payments per user</div>
           </div>

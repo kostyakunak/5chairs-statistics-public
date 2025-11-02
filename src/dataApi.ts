@@ -81,8 +81,8 @@ function generateMockData(filters: Filters): StatsPayload {
   const newUsers = newUsersByDay.reduce((sum, p) => sum + p.value, 0);
   const firstPurchaseCr = 0.12;
   const repeatShare = 0.28;
-  const aov = 2500;
-  const ltvAvg = 3200;
+  const aov = 95;
+  const ltvAvg = 180;
 
   return {
     kpis: {

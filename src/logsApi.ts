@@ -91,8 +91,10 @@ function generateMockMessage(index: number): MessageItem {
     rendered_message.title = 'Service Payment';
     rendered_message.description = 'Booking for 27.10 14:00';
     rendered_message.payload = `invoice_${index}`;
-    rendered_message.currency = 'RUB';
-    rendered_message.prices = [{ label: 'Haircut', amount: 150000 }];
+    rendered_message.currency = 'USD';
+    // Amount in cents (e.g., 9500 cents = $95)
+    const priceInCents = 8000 + Math.floor(Math.random() * 4000); // $80-$120
+    rendered_message.prices = [{ label: 'Meeting', amount: priceInCents }];
   } else if (type === 'media_group') {
     rendered_message.media = [
       { type: 'photo', media: `https://picsum.photos/800/600?random=${index}a`, caption: 'Photo 1' },
